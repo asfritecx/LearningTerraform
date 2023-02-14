@@ -32,7 +32,7 @@ resource "azurerm_network_interface" "webserverNIC" {
   ip_configuration {
     name                          = "ipconfig"
     subnet_id                     = azurerm_subnet.frontendSubnet.id
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
     private_ip_address = "10.0.10.10"
   }
 }
@@ -45,7 +45,7 @@ resource "azurerm_network_interface" "dbserverNIC" {
   ip_configuration {
     name                          = "ipconfig"
     subnet_id                     = azurerm_subnet.backendSubnet.id
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
     private_ip_address = "10.0.20.20"
   }
 }
@@ -54,7 +54,7 @@ resource "azurerm_windows_virtual_machine" "LAPP01" {
   name                = "LAPP01"
   resource_group_name = azurerm_resource_group.lettyRG.name
   location            = azurerm_resource_group.lettyRG.location
-  size                = "Standard_B2"
+  size                = "Standard_B2s"
   admin_username      = "adminuser"
   admin_password      = "P@$$w0rd1234!"
   network_interface_ids = [
@@ -78,7 +78,7 @@ resource "azurerm_windows_virtual_machine" "LDB01" {
   name                = "LDB01"
   resource_group_name = azurerm_resource_group.lettyRG.name
   location            = azurerm_resource_group.lettyRG.location
-  size                = "Standard_B2"
+  size                = "Standard_B2s"
   admin_username      = "adminuser"
   admin_password      = "P@$$w0rd1234!"
   network_interface_ids = [
