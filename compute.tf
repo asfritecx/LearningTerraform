@@ -3,8 +3,8 @@ resource "azurerm_windows_virtual_machine" "LAPP01" {
   resource_group_name = azurerm_resource_group.lettyRG.name
   location            = azurerm_resource_group.lettyRG.location
   size                = "Standard_B2s"
-  admin_username      = "adminuser"
-  admin_password      = "P@$$w0rd1234!"
+  admin_username      = var.vm_username
+  admin_password      = var.vm_password
   network_interface_ids = [
     azurerm_network_interface.webserverNIC.id,
   ]
@@ -27,8 +27,8 @@ resource "azurerm_windows_virtual_machine" "LDB01" {
   resource_group_name = azurerm_resource_group.lettyRG.name
   location            = azurerm_resource_group.lettyRG.location
   size                = "Standard_B2s"
-  admin_username      = "adminuser"
-  admin_password      = "P@$$w0rd1234!"
+  admin_username      = var.vm_username
+  admin_password      = var.vm_password
   network_interface_ids = [
     azurerm_network_interface.dbserverNIC.id,
   ]
