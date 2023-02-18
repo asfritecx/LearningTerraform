@@ -5,11 +5,18 @@ resource "azurerm_windows_virtual_machine" "LAPP01" {
   size                = "Standard_B2s"
   admin_username      = var.vm_username
   admin_password      = var.vm_password
+  enable_automatic_updates = false
+  patch_mode = "Manual"
   network_interface_ids = [
     azurerm_network_interface.webserverNIC.id,
   ]
 
+  boot_diagnostics {
+    storage_account_uri = azurerm_storage_account.vm-diag-storage-acc.primary_blob_endpoint
+  }
+
   os_disk {
+    
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
@@ -20,6 +27,12 @@ resource "azurerm_windows_virtual_machine" "LAPP01" {
     sku       = "2022-Datacenter-Azure-Edition"
     version   = "latest"
   }
+
+
+  tags = {
+    "Purpose" = "Letty Application Server"
+  }
+
 }
 
 resource "azurerm_windows_virtual_machine" "LDB01" {
@@ -29,13 +42,18 @@ resource "azurerm_windows_virtual_machine" "LDB01" {
   size                = "Standard_B2s"
   admin_username      = var.vm_username
   admin_password      = var.vm_password
+  
   network_interface_ids = [
     azurerm_network_interface.dbserverNIC.id,
   ]
 
+  boot_diagnostics {
+    storage_account_uri = azurerm_storage_account.vm-diag-storage-acc.primary_blob_endpoint
+  }
+
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = "Premium_LRS"
   }
 
   source_image_reference {
@@ -44,4 +62,9 @@ resource "azurerm_windows_virtual_machine" "LDB01" {
     sku       = "2022-Datacenter-Azure-Edition"
     version   = "latest"
   }
+
+  tags = {
+    "Purpose" = "Letty Database Server"
+  }
+
 }
